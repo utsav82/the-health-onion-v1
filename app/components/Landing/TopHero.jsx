@@ -46,7 +46,7 @@ export default async function IndexPage() {
               className={cn(buttonVariants({ size: "default" }))}>
               Get Started
             </Link>
-            <Link
+            {/* <Link
               href="https://github.com/Malay-dev/the-health-onion-v1"
               target="_blank"
               rel="noreferrer"
@@ -54,7 +54,7 @@ export default async function IndexPage() {
                 buttonVariants({ variant: "secondary", size: "default" })
               )}>
               GitHub
-            </Link>
+            </Link> */}
           </div>
         </div>
       </section>
