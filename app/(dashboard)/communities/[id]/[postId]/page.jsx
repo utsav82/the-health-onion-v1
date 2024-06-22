@@ -69,6 +69,7 @@ const PostPage = async ({ params }) => {
           <CardDescription>
             <LikeButton
               voted={voted}
+              user={user}
               postId={post.id}
               number={post?.votes.length}></LikeButton>
           </CardDescription>
