@@ -11,19 +11,19 @@ import {
   DropdownMenuTrigger,
 } from "app/components/ui/dropdown-menu";
 import { UserAvatar } from "./user-avatar";
-import {GiHamburgerMenu} from "react-icons/gi"
+import { GiHamburgerMenu } from "react-icons/gi"
 export default function UserAccountNav({ user }) {
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="flex items-center">
-        <UserAvatar
+        {user && <UserAvatar
           user={{ name: user?.name || null, image: user?.image || null }}
           className="h-8 w-8 mr-3 md:mr-auto"
-        />
-        <GiHamburgerMenu  className="h-5 w-5 md:hidden" ></GiHamburgerMenu>
+        />}
+        <GiHamburgerMenu className="h-5 w-5 md:hidden" ></GiHamburgerMenu>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <div className="flex items-center justify-start gap-2 p-2">
+        {user && <div className="flex items-center justify-start gap-2 p-2">
           <div className="flex flex-col space-y-1 leading-none">
             {user?.name && <p className="font-medium">{user.name}</p>}
             {user?.email && (
@@ -32,7 +32,7 @@ export default function UserAccountNav({ user }) {
               </p>
             )}
           </div>
-        </div>
+        </div>}
         <DropdownMenuSeparator />
         <DropdownMenuItem asChild>
           <Link href="/dashboard" className="md:hidden">
@@ -44,14 +44,14 @@ export default function UserAccountNav({ user }) {
             Communities
           </Link>
         </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        {user && <DropdownMenuItem asChild>
           <Link href="/dashboard/posts">My Posts</Link>
-        </DropdownMenuItem>
-        <DropdownMenuItem asChild>
+        </DropdownMenuItem>}
+        {user && <DropdownMenuItem asChild>
           <Link href="/dashboard/settings">Settings</Link>
-        </DropdownMenuItem>
+        </DropdownMenuItem>}
         <DropdownMenuSeparator />
-        <DropdownMenuItem
+        {user && <DropdownMenuItem
           className="cursor-pointer"
           onSelect={(event) => {
             event.preventDefault();
@@ -60,7 +60,7 @@ export default function UserAccountNav({ user }) {
             });
           }}>
           Sign out
-        </DropdownMenuItem>
+        </DropdownMenuItem>}
       </DropdownMenuContent>
     </DropdownMenu>
   );

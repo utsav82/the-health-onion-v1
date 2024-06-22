@@ -14,7 +14,10 @@ import ShareButton from "./Share-Button";
 import Link from "next/link";
 import { formatTimeToNow } from "app/libs/utils";
 const Post = ({ item, user }) => {
-    const voted = item.votes.some(vote => vote.userId === user);
+
+    let voted = false;
+    if (user)
+        voted = item.votes.some(vote => vote.userId === user.id);
 
     return (
         <Card className="md:container w-full">
@@ -47,6 +50,7 @@ const Post = ({ item, user }) => {
                 </CardDescription>
                 <CardDescription>
                     <LikeButton
+                        user={user}
                         voted={voted}
                         postId={item.id}
                         number={item?.votes.length}

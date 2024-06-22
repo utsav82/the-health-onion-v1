@@ -1,6 +1,5 @@
 import prisma from "app/libs/prismadb";
 import Link from "next/link";
-import { getCurrentUser } from "app/libs/session";
 
 import {
   Tabs,
@@ -46,28 +45,31 @@ function CommunityCard({ community }) {
   );
 }
 
-const CommunitiesList = async () => {
+const CommunitiesList = async ({user}) => {
   try {
-    const user = await getCurrentUser();
+   
     const communities = await prisma.community.findMany({
       include: {
         creator: true,
         subscribers: true,
       },
     });
-    const subscriptionsWithCommunity = await prisma.subscription.findMany({
-      where: {
-        userId: user.id,
-      },
-      include: {
-        community: {
-          include: {
-            creator: true,
-            subscribers: true,
+
+    let subscriptionsWithCommunity = [];
+    if (user)
+      subscriptionsWithCommunity = await prisma.subscription.findMany({
+        where: {
+          userId: user.id,
+        },
+        include: {
+          community: {
+            include: {
+              creator: true,
+              subscribers: true,
+            },
           },
         },
-      },
-    });
+      });
     const subscribedCommunities = subscriptionsWithCommunity.map(
       (subscription) => subscription.community
     );

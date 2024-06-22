@@ -43,7 +43,7 @@ const Hero = () => {
           </p>
           <div className="inline-block my-5 animate-fade-right animate-once animate-duration-1000 animate-delay-500 animate-ease-in-out animate-fill-both">
             <Button asChild>
-              <Link href="/auth">Register Now</Link>
+              <Link href="/dashboard">Dive in</Link>
             </Button>
           </div>
         </div>

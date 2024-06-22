@@ -6,8 +6,12 @@ import Loader from "./components/communityLoader";
 export const metadata = {
   title: "Communities",
 };
+import { getCurrentUser } from "app/libs/session";
+
 
 export default async function Community() {
+
+  const user = await getCurrentUser();
 
   return (
     <div className="container mt-5">
@@ -16,11 +20,11 @@ export default async function Community() {
           heading="Communities"
           text="Follow communities that suit you"
         />
-        <Create></Create>
+        {user && <Create></Create>}
       </div>
       <div className="mt-4">
         <Suspense fallback={<Loader />}>
-          <CommunitiesList />
+          <CommunitiesList user={user} />
         </Suspense>
       </div>
     </div>

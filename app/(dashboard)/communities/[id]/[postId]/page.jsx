@@ -34,7 +34,9 @@ const PostPage = async ({ params }) => {
     },
   });
 
-  const voted = post.votes.some((vote) => vote.userId === user.id);
+  let voted = false;
+  if (user)
+    voted = post.votes.some((vote) => vote.userId === user.id);
 
   return (
     <Card className="md:container md:w-full" id="post">
@@ -74,7 +76,7 @@ const PostPage = async ({ params }) => {
             <ShareButton></ShareButton>
           </CardDescription>
           <CardDescription>
-            {(post.authorId === user.id) && <DeleteButton postId={postId} communityName={params.id}></DeleteButton>}
+            {user && (post.authorId === user.id) && <DeleteButton postId={postId} communityName={params.id}></DeleteButton>}
           </CardDescription>
         </div>
         <div className="w-full" id="comment">

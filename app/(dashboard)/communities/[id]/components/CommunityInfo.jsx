@@ -25,7 +25,9 @@ const CommunityInfo = async ({ params }) => {
   });
 
   if (!community) return notFound();
-  const isSubscribed = community.subscribers.some(item => item.userId === user.id);
+  let isSubscribed = false;
+  if (user)
+    isSubscribed = community.subscribers.some(item => item.userId === user.id);
 
   return (
     <div className="community-container relative w-screen md:w-[350px] max-w-md h-fit bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
@@ -57,16 +59,16 @@ const CommunityInfo = async ({ params }) => {
             <AvatarFallback>CN</AvatarFallback>
           </Avatar>
           <p className="text-center text-black">{community.creator?.name}</p>
-          {user.id === community.creator.id && <DeleteButton communityName={community_name} user={user} className="self-end"></DeleteButton>}
+          {user && user.id === community.creator.id && <DeleteButton communityName={community_name} user={user} className="self-end"></DeleteButton>}
         </div>
       </div>
       <div className="community-actions p-5 -mt-5 flex justify-between">
         <div className="subscribe-leave-toggle">
-          <SubscribeLeaveToggle
+          {user && <SubscribeLeaveToggle
             isSubscribed={isSubscribed}
             communityId={community.id}
             communityName={community.name}
-          />
+          />}
         </div>
         {isSubscribed && (
           <div className="create-post-button">

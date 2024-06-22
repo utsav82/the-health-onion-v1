@@ -37,5 +37,6 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/dashboard/:path*", "/auth", "/communities/:path*"],
+  // matcher: ["/dashboard/:path*", "/auth", "/communities/:path*"],
+  matcher: ["/auth"],
 };

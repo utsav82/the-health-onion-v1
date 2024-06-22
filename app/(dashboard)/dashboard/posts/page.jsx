@@ -1,14 +1,19 @@
 import { DashboardHeader } from "app/components/header";
-import { DashboardShell } from "app/components/shell";
 import Post from "app/(dashboard)/communities/[id]/components/Post.jsx";
 import prisma from "app/libs/prismadb";
 import { getCurrentUser } from "app/libs/session";
+import { redirect } from "next/navigation";
 export const metadata = {
   title: "My Posts",
 };
 
 export default async function PostsPage() {
   const user = await getCurrentUser();
+  
+  if (!user) {
+    redirect( "/auth");
+  }
+
   const posts = await prisma.post.findMany({
     where: {
       authorId: user.id,

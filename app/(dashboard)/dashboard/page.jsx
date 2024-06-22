@@ -22,6 +22,7 @@ export const metadata = {
 };
 
 export default async function PostsPage() {
+
   const qoute = Quote.getRandomQuote();
   console.log(qoute);
   const user = await getCurrentUser();

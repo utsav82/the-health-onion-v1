@@ -5,6 +5,7 @@ import { Kreon } from "next/font/google";
 import UserAccountNav from "app/components/user-account-nav";
 import { redirect } from "next/navigation";
 import { getCurrentUser } from "app/libs/session";
+import { Button } from "./ui/button";
 
 const kreon = Kreon({
   subsets: ["latin"],
@@ -15,9 +16,9 @@ const kreon = Kreon({
 export default async function MainNav() {
   const user = await getCurrentUser();
 
-  if (!user) {
-    redirect("/auth");
-  }
+  // if (!user) {
+  //   redirect("/auth");
+  // }
 
   return (
     <div className="flex mr-5 md:mx-5 items-center justify-between">
@@ -48,13 +49,19 @@ export default async function MainNav() {
           </Link>
         </nav>
         <div className="flex items-center justify-evenly space-x-3">
-          <UserAccountNav
+          {user ? <UserAccountNav
             user={{
               name: user.name,
               image: user.image,
               email: user.email,
             }}
-          />
+          /> :
+            <>
+              <UserAccountNav />
+              <Button asChild>
+                <Link href="/auth">Login</Link>
+              </Button>
+            </>}
         </div>
       </div>
     </div>

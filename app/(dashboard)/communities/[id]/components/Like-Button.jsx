@@ -4,7 +4,8 @@ import { toast } from "react-hot-toast";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import { FcLike, FcLikePlaceholder } from "react-icons/fc";
-const LikeButton = ({ number, postId, voted }) => {
+const LikeButton = ({ number, postId, voted, user }) => {
+
   const router = useRouter();
   const [isVoted, setisVoted] = useState(voted);
   const [votes, setVotes] = useState(number);
@@ -12,6 +13,13 @@ const LikeButton = ({ number, postId, voted }) => {
   const [isPending, startTransition] = useTransition();
   const isMutating = isLoading || isPending;
   const handleClick = async () => {
+
+    if (!user) {
+      toast.error("You must be logged in to like");
+      return;
+    }
+
+
     try {
       const payload = {
         postId: postId,

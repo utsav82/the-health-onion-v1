@@ -10,6 +10,11 @@ const CommentForm = ({ postId, user, replyToId }) => {
     let [isPending, startTransition] = useTransition();
 
     const onSubmit = async (formData) => {
+
+        if (!user) {
+            toast.error("You must be logged in to comment")
+            return;
+        }
         const comment = formData.get('comment')
         formRef.current.reset()
 

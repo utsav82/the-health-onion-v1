@@ -32,7 +32,7 @@ const PostList = async ({ community }) => {
       <section>
         <ul className="mt-8 flex flex-col items-center justify-center md:mt-auto space-y-6">
           {posts.map((item, idx) => (
-            <Post item={item} key={idx} user={user.id} />
+            <Post item={item} key={idx} user={user} />
           ))}
         </ul>
       </section>

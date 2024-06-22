@@ -42,7 +42,7 @@ export default async function IndexPage() {
           </p>
           <div className="hidden md:block space-x-4">
             <Link
-              href="/auth"
+              href="/dashboard"
               className={cn(buttonVariants({ size: "default" }))}>
               Get Started
             </Link>

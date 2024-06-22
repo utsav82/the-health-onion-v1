@@ -29,7 +29,9 @@ import {
 } from "@material-tailwind/react";
 
 function PostCard({ id, image, title, authorName, votes, user, content, community }) {
-  const voted = votes.some((vote) => vote.userId === user);
+  let voted = false;
+  if (user)
+    voted = votes.some((vote) => vote.userId === user.id);
   const theme = useMantineTheme();
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   return (
@@ -60,6 +62,7 @@ function PostCard({ id, image, title, authorName, votes, user, content, communit
         <CardFooter className="flex items-center justify-between">
           <div className="flex items-center space-x-3">
             <LikeButton
+              user={user}
               voted={voted}
               postId={id}
               number={votes.length}></LikeButton>
@@ -102,7 +105,7 @@ export default function PostCarousel({ posts, user }) {
   const mobile = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`);
   const slides = posts.map((item) => (
     <Carousel.Slide key={item.title}>
-      <PostCard {...item} user={user.id} />
+      <PostCard {...item} user={user} />
     </Carousel.Slide>
   ));
 
@@ -111,7 +114,7 @@ export default function PostCarousel({ posts, user }) {
       {mobile ? (
         <div className="flex flex-col gap-5 items-center">
           {posts.map((item, idx) => (
-            <PostCard {...item} user={user.id} key={idx} />
+            <PostCard {...item} user={user} key={idx} />
           ))}
         </div>
       ) : (
