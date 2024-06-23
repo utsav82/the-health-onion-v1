@@ -66,7 +66,7 @@ function PostCard({ id, image, title, authorName, votes, user, content, communit
               voted={voted}
               postId={id}
               number={votes.length}></LikeButton>
-            <ShareButton></ShareButton>
+            {/* <ShareButton></ShareButton> */}
           </div>
           <Typography className="font-normal">
             Posted By {authorName.substring(0, 10)}
