@@ -15,25 +15,36 @@ import DeleteButton from "../components/Delete-Button";
 import ShareButton from "../components/Share-Button";
 import { getCurrentUser } from "app/libs/session";
 import { formatTimeToNow } from "app/libs/utils";
+import { redis } from "@/app/libs/redis";
 const PostPage = async ({ params }) => {
   const user = await getCurrentUser();
   const postId = params.postId;
 
-  const post = await prisma.post.findUnique({
-    where: {
-      id: postId,
-    },
-    include: {
-      votes: true,
-      author: true,
-      comments: {
-        include: {
-          author: true,
+  let post;
+
+  const cachedPost = (await redis.hgetall(
+    `post:${params.postId}`
+  ))
+
+  if (cachedPost) {
+    post = cachedPost;
+  } else {
+    post = await prisma.post.findUnique({
+      where: {
+        id: postId,
+      },
+      include: {
+        votes: true,
+        author: true,
+        comments: {
+          include: {
+            author: true,
+          },
         },
       },
-    },
-  });
-
+    });
+    await redis.hmset(`post:${params.postId}`, post);
+  }
   let voted = false;
   if (user)
     voted = post.votes.some((vote) => vote.userId === user.id);
