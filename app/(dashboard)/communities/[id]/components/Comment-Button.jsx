@@ -2,12 +2,12 @@
 import React from "react";
 import { BsFillChatRightFill } from "react-icons/bs";
 import { useRouter } from "next/navigation";
-const CommentButton = ({ number }) => {
+const CommentButton = () => {
   return (
     <>
       <button className="flex space-x-2 items-center">
         <BsFillChatRightFill size={20} className="mr-2"></BsFillChatRightFill>
-        {number} <span className="hidden md:block">comments</span>
+        <span className="hidden md:block">Comment</span>
       </button>
     </>
   );

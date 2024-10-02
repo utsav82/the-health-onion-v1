@@ -36,15 +36,11 @@ const PostPage = async ({ params }) => {
       include: {
         votes: true,
         author: true,
-        comments: {
-          include: {
-            author: true,
-          },
-        },
       },
     });
     await redis.hmset(`post:${params.postId}`, post);
   }
+
   let voted = false;
   if (user)
     voted = post.votes.some((vote) => vote.userId === user.id);
@@ -75,7 +71,7 @@ const PostPage = async ({ params }) => {
       <CardFooter className="flex flex-col w-full">
         <div className="flex gap-6 items-center w-full">
           <CardDescription>
-            <CommentButton number={post?.comments.length}></CommentButton>
+            <CommentButton ></CommentButton>
           </CardDescription>
           <CardDescription>
             <LikeButton

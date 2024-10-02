@@ -1,5 +1,6 @@
 import { getCurrentUser } from "app/libs/session";
 import prisma from "app/libs/prismadb";
+import { redis } from "@/app/libs/redis";
 export async function POST(req) {
   try {
     const user = await getCurrentUser();
@@ -22,24 +23,23 @@ export async function POST(req) {
     if (vote) {
       await prisma.vote.delete({
         where: {
-          id:vote.id
+          id: vote.id,
         },
       });
     } else {
       await prisma.vote.create({
         data: {
-            postId,
-            userId: user.id,
+          postId,
+          userId: user.id,
         },
       });
     }
 
+    await redis.del(`post:${postId}`);
+
     return new Response("OK");
   } catch (error) {
-    console.log(error)
-    return new Response(
-      "Could not Like",
-      { status: 500 }
-    );
+    console.log(error);
+    return new Response("Could not Like", { status: 500 });
   }
 }
