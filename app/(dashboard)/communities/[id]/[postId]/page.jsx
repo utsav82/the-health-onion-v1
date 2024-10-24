@@ -20,26 +20,34 @@ const PostPage = async ({ params }) => {
   const user = await getCurrentUser();
   const postId = params.postId;
 
-  let post;
+  let post = await prisma.post.findUnique({
+    where: {
+      id: postId,
+    },
+    include: {
+      votes: true,
+      author: true,
+    },
+  });
 
-  const cachedPost = (await redis.hgetall(
-    `post:${params.postId}`
-  ))
+  // const cachedPost = (await redis.hgetall(
+  //   `post:${params.postId}`
+  // ))
 
-  if (cachedPost) {
-    post = cachedPost;
-  } else {
-    post = await prisma.post.findUnique({
-      where: {
-        id: postId,
-      },
-      include: {
-        votes: true,
-        author: true,
-      },
-    });
-    await redis.hmset(`post:${params.postId}`, post);
-  }
+  // if (cachedPost) {
+  //   post = cachedPost;
+  // } else {
+  //   post = await prisma.post.findUnique({
+  //     where: {
+  //       id: postId,
+  //     },
+  //     include: {
+  //       votes: true,
+  //       author: true,
+  //     },
+  //   });
+  //   await redis.hmset(`post:${params.postId}`, post);
+  // }
 
   let voted = false;
   if (user)

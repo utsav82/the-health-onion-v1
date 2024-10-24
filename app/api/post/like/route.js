@@ -35,7 +35,7 @@ export async function POST(req) {
       });
     }
 
-    await redis.del(`post:${postId}`);
+    // await redis.del(`post:${postId}`);
 
     return new Response("OK");
   } catch (error) {
